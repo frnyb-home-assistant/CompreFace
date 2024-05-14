@@ -1,0 +1,13 @@
+{
+  "_checkout": "2021.1.1",
+  "_output_dir": "/home/fn/Workspace/repos",
+  "_repo_dir": "/home/fn/.cookiecutters/cookiecutter-homeassistant-custom-component",
+  "_template": "git@github.com:oncleben31/cookiecutter-homeassistant-custom-component.git",
+  "class_name_prefix": "CompreFace",
+  "domain_name": "compreface",
+  "friendly_name": "CompreFace",
+  "github_user": "frnyb",
+  "project_name": "compreface",
+  "test_suite": "no",
+  "version": "0.0.0"
+}

@@ -1,0 +1,10 @@
+{
+  "domain": "compreface",
+  "name": "CompreFace",
+  "documentation": "https://github.com/frnyb/compreface",
+  "issue_tracker": "https://github.com/frnyb/compreface/issues",
+  "dependencies": [],
+  "config_flow": true,
+  "codeowners": ["@frnyb"],
+  "requirements": []
+}
