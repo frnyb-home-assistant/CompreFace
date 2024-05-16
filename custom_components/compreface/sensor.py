@@ -1,10 +1,9 @@
 """Sensor platform for CompreFace."""
 
-import os
 import asyncio
-from time import sleep
-
 from datetime import datetime
+import os
+from time import sleep
 
 from compreface import CompreFace
 from compreface.service import RecognitionService
@@ -28,7 +27,7 @@ from homeassistant.helpers.entity_platform import (
     async_get_current_platform,
 )
 
-from .const import DOMAIN
+from .const import CONF_IMAGE_TEMP_DIR, DOMAIN
 
 
 async def async_setup_entry(
@@ -44,7 +43,9 @@ async def async_setup_entry(
         recognition_entities = []
 
         for device in recognition_camera_devices:
-            entity = CompreFaceRecognitionSensor(hass, device)
+            entity = CompreFaceRecognitionSensor(
+                hass, device, entry.data.get(CONF_IMAGE_TEMP_DIR)
+            )
             recognition_entities.append(entity)
 
         async_add_devices(recognition_entities)
@@ -66,9 +67,10 @@ async def async_unload_entry(hass, entry):
 class CompreFaceRecognitionSensor(SensorEntity):
     """CompreFace recognition sensor class."""
 
-    def __init__(self, hass: HomeAssistant, camera_device_id: str):
+    def __init__(self, hass: HomeAssistant, camera_device_id: str, image_temp_dir: str):
         self.hass = hass
         self.camera_device_id = camera_device_id
+        self.image_temp_dir = image_temp_dir
 
         device_registry = dr.async_get(hass)
         device = device_registry.async_get(camera_device_id)
@@ -124,15 +126,16 @@ class CompreFaceRecognitionSensor(SensorEntity):
         #     self.hass.async_add_executor_job(self._async_update_internal)
 
         # async def _async_update_internal(self):
-        #     """Update the sensor."""
         recognition: RecognitionService = self.hass.data[DOMAIN]["recognition"]
 
         camera_device_id = self.camera_device_id
 
         # Generate filename based on datetime:
-        img_filename = (
-            f"config/www/image_tmp_{datetime.now().strftime('%Y%m%d%H%M%S')}.jpg"
+        img_filename = os.path.join(
+            self.image_temp_dir,
+            f"recognition_image_tmp_{datetime.now().strftime('%Y%m%d%H%M%S')}.jpg",
         )
+        # img_filename = f"{self.image_temp_dir}/recognition_image_tmp_{datetime.now().strftime('%Y%m%d%H%M%S')}.jpg"
 
         await self.hass.services.async_call(
             "camera",

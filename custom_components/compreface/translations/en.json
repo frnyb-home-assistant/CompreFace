@@ -9,17 +9,21 @@
           "port": "CompreFace host Port",
           "recognize_api_key": "Face recognition API key",
           "detect_api_key": "Face detection API key",
-          "verify_api_key": "Face verification API key"
+          "verify_api_key": "Face verification API key",
+          "image_temp_dir": "Temporary directory for images"
         },
         "data_description": {
           "recognize_api_key": "Leave empty if you don't want to setup face recognition",
           "detect_api_key": "Leave empty if you don't want to setup face detection",
-          "verify_api_key": "Leave empty if you don't want to setup face verification"
+          "verify_api_key": "Leave empty if you don't want to setup face verification",
+          "image_temp_dir": "Directory must be accessible by the Home Assistant user, list dir in allowlist_external_dirs in configuration.yaml"
         }
       }
     },
     "error": {
-      "auth": "Username/Password is wrong."
+      "invalid_host": "Host IP is invalid.",
+      "empty_keys": "At least one API key must be provided.",
+      "invalid_temp_dir": "Temporary directory can not be accessed."
     },
     "abort": {
       "single_instance_allowed": "Only a single instance is allowed."

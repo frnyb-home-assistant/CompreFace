@@ -18,6 +18,7 @@ CONF_PORT = "port"
 CONF_RECOGNIZE_API_KEY = "recognize_api_key"
 CONF_VERIFY_API_KEY = "verify_api_key"
 CONF_DETECT_API_KEY = "detect_api_key"
+CONF_IMAGE_TEMP_DIR = "image_temp_dir"
 
 CONFIG_FLOW_DATA_SCHEMA_USER = vol.Schema(
     {
@@ -31,6 +32,9 @@ CONFIG_FLOW_DATA_SCHEMA_USER = vol.Schema(
         ): str,
         vol.Optional(
             CONF_DETECT_API_KEY,
+        ): str,
+        vol.Required(
+            CONF_IMAGE_TEMP_DIR,
         ): str,
     }
 )

@@ -1,5 +1,7 @@
 """Adds config flow for CompreFace."""
 
+import datetime
+import os
 import socket
 
 import voluptuous as vol
@@ -15,6 +17,7 @@ from homeassistant.helpers.selector import (
 from .const import (
     CONF_DETECT_API_KEY,
     CONF_HOST,
+    CONF_IMAGE_TEMP_DIR,
     CONF_RECOGNIZE_API_KEY,
     CONF_VERIFY_API_KEY,
     CONFIG_FLOW_DATA_SCHEMA_USER,
@@ -41,12 +44,23 @@ class CompreFaceFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_abort(reason="single_instance_allowed")
 
         if user_input is not None:
-            valid = self._test_host(user_input[CONF_HOST])
-            valid = valid and self._test_API_keys(user_input)
+            host_valid = self._test_host(user_input[CONF_HOST])
+            keys_valid = self._test_API_keys(user_input)
+            temp_dir_valid = self._test_temp_dir(user_input)
+
+            valid = host_valid and keys_valid and temp_dir_valid
+
             if valid:
                 return self.async_create_entry(title="CompreFace", data=user_input)
 
-            self._errors["base"] = "value_error"
+            if not host_valid:
+                self._errors[CONF_HOST] = "invalid_host"
+
+            if not keys_valid:
+                self._errors["base"] = "empty_keys"
+
+            if not temp_dir_valid:
+                self._errors["base"] = "invalid_temp_dir"
 
             return self.async_show_form(
                 step_id="user",
@@ -83,6 +97,27 @@ class CompreFaceFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 return True
 
         return False
+
+    def _test_temp_dir(self, user_input) -> bool:
+        """Return false if temp dir is empty or does not exist."""
+
+        if user_input[CONF_IMAGE_TEMP_DIR] == "":
+            return False
+
+        # Generate temp filename from datetime, attempt to create file and delete it in temp dir
+        temp_filename = os.path.join(
+            user_input[CONF_IMAGE_TEMP_DIR],
+            f"{datetime.datetime.now().isoformat()}.tmp",
+        )
+
+        try:
+            with open(temp_filename, "w+") as f:
+                f.write("test")
+            os.remove(temp_filename)
+        except Exception:
+            return False
+
+        return True
 
 
 class CompreFaceOptionsFlowHandler(config_entries.OptionsFlow):
