@@ -1,41 +1,38 @@
 """Constants for CompreFace."""
+
+import voluptuous as vol
+
 # Base component constants
 NAME = "CompreFace"
 DOMAIN = "compreface"
 DOMAIN_DATA = f"{DOMAIN}_data"
 VERSION = "0.0.0"
 
-ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
-ISSUE_URL = "https://github.com/frnyb/compreface/issues"
+PLATFORMS = ["sensor"]
 
-# Icons
-ICON = "mdi:format-quote-close"
+STARTUP_MESSAGE = f"Starting {NAME}..."
 
-# Device classes
-BINARY_SENSOR_DEVICE_CLASS = "connectivity"
+# Configuration
+CONF_HOST = "host"
+CONF_PORT = "port"
+CONF_RECOGNIZE_API_KEY = "recognize_api_key"
+CONF_VERIFY_API_KEY = "verify_api_key"
+CONF_DETECT_API_KEY = "detect_api_key"
 
-# Platforms
-BINARY_SENSOR = "binary_sensor"
-SENSOR = "sensor"
-SWITCH = "switch"
-PLATFORMS = [BINARY_SENSOR, SENSOR, SWITCH]
+CONFIG_FLOW_DATA_SCHEMA_USER = vol.Schema(
+    {
+        vol.Required(CONF_HOST): str,
+        vol.Required(CONF_PORT): int,
+        vol.Optional(
+            CONF_RECOGNIZE_API_KEY,
+        ): str,
+        vol.Optional(
+            CONF_VERIFY_API_KEY,
+        ): str,
+        vol.Optional(
+            CONF_DETECT_API_KEY,
+        ): str,
+    }
+)
 
-
-# Configuration and options
-CONF_ENABLED = "enabled"
-CONF_USERNAME = "username"
-CONF_PASSWORD = "password"
-
-# Defaults
-DEFAULT_NAME = DOMAIN
-
-
-STARTUP_MESSAGE = f"""
--------------------------------------------------------------------
-{NAME}
-Version: {VERSION}
-This is a custom integration!
-If you have any issues with this you need to open an issue here:
-{ISSUE_URL}
--------------------------------------------------------------------
-"""
+# Options

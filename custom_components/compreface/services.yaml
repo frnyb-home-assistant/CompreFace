@@ -1,0 +1,12 @@
+update:
+  description: Update the given face recognition sensor
+  fields:
+    entity_id:
+      required: true
+      description: The entity_id of the face recognition sensor to update
+      example: sensor.face_recognition
+      selector:
+        entity:
+          filter:
+            - integration: compreface
+              domain: sensor

@@ -2,11 +2,19 @@
   "config": {
     "step": {
       "user": {
-        "title": "CompreFace",
-        "description": "If you need help with the configuration have a look here: https://github.com/frnyb/compreface",
+        "title": "CompreFace configuration",
+        "description": "If you need help with the configuration have a look here: https://github.com/frnyb-home-assistant/compreface",
         "data": {
-          "username": "Username",
-          "password": "Password"
+          "host": "CompreFace host IP address",
+          "port": "CompreFace host Port",
+          "recognize_api_key": "Face recognition API key",
+          "detect_api_key": "Face detection API key",
+          "verify_api_key": "Face verification API key"
+        },
+        "data_description": {
+          "recognize_api_key": "Leave empty if you don't want to setup face recognition",
+          "detect_api_key": "Leave empty if you don't want to setup face detection",
+          "verify_api_key": "Leave empty if you don't want to setup face verification"
         }
       }
     },
@@ -19,11 +27,22 @@
   },
   "options": {
     "step": {
-      "user": {
+      "recognition": {
+        "title": "Face recognition setup",
         "data": {
-          "binary_sensor": "Binary sensor enabled",
-          "sensor": "Sensor enabled",
-          "switch": "Switch enabled"
+          "recognition_camera_devices": "Cameras to bind face recognition to"
+        }
+      },
+      "verification": {
+        "title": "Face verification setup",
+        "data": {
+          "verification_camera_devices": "Cameras to bind face verification to"
+        }
+      },
+      "detection": {
+        "title": "Face detection setup",
+        "data": {
+          "detection_camera_devices": "Cameras to bind face detection to"
         }
       }
     }

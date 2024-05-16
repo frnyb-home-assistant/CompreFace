@@ -1,10 +1,15 @@
 {
   "domain": "compreface",
   "name": "CompreFace",
-  "documentation": "https://github.com/frnyb/compreface",
-  "issue_tracker": "https://github.com/frnyb/compreface/issues",
-  "dependencies": [],
+  "documentation": "https://github.com/frnyb-home-assistant/compreface",
+  "issue_tracker": "https://github.com/frnyb-home-assistant/compreface/issues",
+  "requirements": [
+    "compreface-sdk"
+  ],
   "config_flow": true,
+  "single_config_entry": true,
   "codeowners": ["@frnyb"],
-  "requirements": []
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "version": "0.1.0"
 }
